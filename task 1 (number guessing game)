@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+struct Task {
+    string name;
+    bool completed;
+};
+
+void print_tasks(Task tasks[], int task_count) {
+    cout << "Tasks to do:\n----------------------------" << endl;
+    for (int i = 0; i < task_count; i++) {
+        cout << "Task " << i << ": " << tasks[i].name;
+        cout << " [" << (tasks[i].completed ? "Completed" : "Pending") << "]" << endl;
+    }
+}
+
+int main() {
+    Task tasks[10];  // Array of Task structs
+    int task_count = 0;
+    int option = -1;
+
+    while (option != 0) {
+        cout << "\n----- TO DO LIST ------" << endl;
+        cout << "1 - Add New Task" << endl;
+        cout << "2 - View Tasks" << endl;
+        cout << "3 - Delete a Task" << endl;
+        cout << "4 - Mark a Task as Completed" << endl;
+        cout << "0 - Exit" << endl;
+
+        cout << "Enter option: ";
+        cin >> option;
+
+        switch (option) {
+            case 1:
+                if (task_count > 9) {
+                    cout << "Task list is full!" << endl;
+                } else {
+                    cout << "Enter a new task: ";
+                    cin.ignore(); // ignore leftover newline
+                    getline(cin, tasks[task_count].name);
+                    tasks[task_count].completed = false;
+                    task_count++;
+                }
+                break;
+
+            case 2:
+                if (task_count == 0)
+                    cout << "No tasks available." << endl;
+                else
+                    print_tasks(tasks, task_count);
+                break;
+
+            case 3:
+                int del_task;
+                cout << "Enter the task number to delete: ";
+                cin >> del_task;
+                if (del_task < 0 || del_task >= task_count) {
+                    cout << "Invalid task number." << endl;
+                } else {
+                    for (int i = del_task; i < task_count - 1; i++) {
+                        tasks[i] = tasks[i + 1];
+                    }
+                    task_count--;
+                    cout << "Task deleted." << endl;
+                }
+                break;
+
+            case 4:
+                int mark_task;
+                cout << "Enter the task number to mark as completed: ";
+                cin >> mark_task;
+                if (mark_task < 0 || mark_task >= task_count) {
+                    cout << "Invalid task number." << endl;
+                } else {
+                    tasks[mark_task].completed = true;
+                    cout << "Task marked as completed!" << endl;
+                }
+                break;
+
+            case 0:
+                cout << "Exiting program..." << endl;
+                break;
+
+            default:
+                cout << "Invalid option. Try again." << endl;
+        }
+    }
+
+    return 0;
+}

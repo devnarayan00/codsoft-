@@ -1,2 +1,0 @@
-# codsoft-
-summer internship projects
